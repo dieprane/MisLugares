@@ -1,6 +1,5 @@
 package org.example.mislugares;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,31 +10,25 @@ import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
-    private Button bAcercaDe;
-    private Button bSalir;
+    public BaseAdapter adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bAcercaDe =(Button) findViewById(R.id.button3);
-        bAcercaDe.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                lanzarAcercaDe(null);
-            }
-        });
-        bSalir =(Button) findViewById(R.id.button4);
-        bSalir.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        adaptador = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1,
+                Lugares.listaNombres());
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(adaptador);
     }
 
 
