@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -17,19 +18,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener{
     public BaseAdapter adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        adaptador = new ArrayAdapter(this,
-                R.layout.elemento_lista,
-                R.id.nombre,
-                Lugares.listaNombres());
+        adaptador = new AdaptadorLugares(this);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adaptador);
+        listView.setOnItemClickListener(this);
     }
 
 
@@ -102,4 +101,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    @Override
+    public void onItemClick(AdapterView parent, View vista,
+                            int posicion, long id){
+        Intent i = new Intent(this, VistaLugar.class);
+        i.putExtra("id", id);
+        startActivity(i);
+    }
 }
