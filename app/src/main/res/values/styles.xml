@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="TemaMisLugares" parent="android:style/Theme.NoTitleBar">
+        <!-- Customize your theme here. -->
+    </style>
+    
+    <style name="EstiloTexto">
+        <item name="android:textSize">25sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
+    <style name="EstiloTexto.Botones">
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">2dp</item>
+    </style>
+
+</resources>
