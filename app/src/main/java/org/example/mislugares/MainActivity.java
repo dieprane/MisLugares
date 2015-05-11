@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener{
+public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
     public BaseAdapter adaptador;
     MediaPlayer mp;
 
@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             lanzarAcercaDe(null);
             return true;
         }
-        if(id == R.id.menu_buscar) {
+        if (id == R.id.menu_buscar) {
             lanzarVistaLugar(null);
             return true;
         }
@@ -73,16 +73,16 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         startActivity(i);
     }
 
-    public void mostrarPreferencias(View view){
+    public void mostrarPreferencias(View view) {
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        String s = "notificaciones: "+ pref.getBoolean("notificaciones",true)
-                +", distancia mínima: " + pref.getString("distancia","0");
+        String s = "notificaciones: " + pref.getBoolean("notificaciones", true)
+                + ", distancia mínima: " + pref.getString("distancia", "0");
         /*El segundo valor es el que obtendrá por defecto en caso de que no encuentre nada*/
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
-    public void lanzarVistaLugar(View view){
+    public void lanzarVistaLugar(View view) {
         final EditText entrada = new EditText(this);
         entrada.setText("0");
         new AlertDialog.Builder(this)
@@ -95,7 +95,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                         Intent i = new Intent(MainActivity.this, VistaLugar.class);
                         i.putExtra("id", id);
                         startActivity(i);
-                    }})
+                    }
+                })
 
                 .setNegativeButton("Cancelar", null)
                 .show();
@@ -108,41 +109,65 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView parent, View vista,
-                            int posicion, long id){
+                            int posicion, long id) {
         Intent i = new Intent(this, VistaLugar.class);
         i.putExtra("id", id);
         startActivity(i);
     }
 
-    @Override protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
         Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
     }
 
-    @Override protected void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
         Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
         mp.start();
     }
 
-    @Override protected void onPause() {
+    @Override
+    protected void onPause() {
         Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
         super.onPause();
         mp.pause();
     }
 
-    @Override protected void onStop() {
+    @Override
+    protected void onStop() {
         super.onStop();
         Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
     }
 
-    @Override protected void onRestart() {
+    @Override
+    protected void onRestart() {
         super.onRestart();
         Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
         Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle guardarEstado) {
+        super.onSaveInstanceState(guardarEstado);
+        if (mp != null) {
+            int pos = mp.getCurrentPosition();
+            guardarEstado.putInt("posicion", pos);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle recEstado) {
+        super.onRestoreInstanceState(recEstado);
+        if (mp != null && recEstado != null) {
+            int pos = recEstado.getInt("posicion");
+            mp.seekTo(pos);
+        }
     }
 }
