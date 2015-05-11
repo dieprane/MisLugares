@@ -3,6 +3,7 @@ package org.example.mislugares;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener{
     public BaseAdapter adaptador;
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         listView.setAdapter(adaptador);
         listView.setOnItemClickListener(this);
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+        mp = MediaPlayer.create(this, R.raw.audio);
+        mp.start();
     }
 
 
@@ -118,11 +122,13 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override protected void onResume() {
         super.onResume();
         Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+        mp.start();
     }
 
     @Override protected void onPause() {
         Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
         super.onPause();
+        mp.pause();
     }
 
     @Override protected void onStop() {
