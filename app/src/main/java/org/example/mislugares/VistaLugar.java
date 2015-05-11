@@ -24,6 +24,10 @@ import java.util.Date;
 public class VistaLugar extends ActionBarActivity {
     private long id;
     private Lugar lugar;
+    private ImageView imageView;
+    final static int RESULTADO_EDITAR= 1;
+    final static int RESULTADO_GALERIA= 2;
+    final static int RESULTADO_FOTO= 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class VistaLugar extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         id = extras.getLong("id", -1);
         lugar = Lugares.elemento((int) id);
+        imageView = (ImageView)findViewById(R.id.foto);
         actualizarVistas();
     }
 
@@ -57,7 +62,7 @@ public class VistaLugar extends ActionBarActivity {
             case R.id.accion_editar:
                 Intent i = new Intent(this, EdicionLugar.class);
                 i.putExtra("id", id);
-                startActivityForResult(i,1234);
+                startActivityForResult(i,RESULTADO_EDITAR);
                 return true;
             case R.id.accion_borrar:
                 confirmarBorrado();
@@ -112,6 +117,7 @@ public class VistaLugar extends ActionBarActivity {
                         lugar.setValoracion(valor);
                     }
                 });
+        ponerFoto(imageView, lugar.getFoto());
         if (lugar.getTelefono() == 0) {
             findViewById(R.id.telefono).setVisibility(View.GONE);
             findViewById(R.id.logo_telefono).setVisibility(View.GONE);
@@ -132,9 +138,13 @@ public class VistaLugar extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1234) {
+        if (requestCode == RESULTADO_EDITAR) {
             actualizarVistas();
             findViewById(R.id.scrollView1).invalidate();
+        }else if (requestCode == RESULTADO_GALERIA
+                && resultCode == Activity.RESULT_OK) {
+            lugar.setFoto(data.getDataString());
+            ponerFoto(imageView, lugar.getFoto());
         }
     }
 
@@ -160,6 +170,21 @@ public class VistaLugar extends ActionBarActivity {
     public void pgWeb(View view) {
         startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse(lugar.getUrl())));
+    }
+
+    public void galeria(View view) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, RESULTADO_GALERIA);
+    }
+
+    protected void ponerFoto(ImageView imageView, String uri) {
+        if (uri != null) {
+            imageView.setImageURI(Uri.parse(uri));
+        } else{
+            imageView.setImageBitmap(null);
+        }
     }
 
 }
