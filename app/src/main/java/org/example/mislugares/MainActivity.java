@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adaptador);
         listView.setOnItemClickListener(this);
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -107,5 +108,35 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         Intent i = new Intent(this, VistaLugar.class);
         i.putExtra("id", id);
         startActivity(i);
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override protected void onPause() {
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        super.onPause();
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
     }
 }
